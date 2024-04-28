@@ -13,41 +13,12 @@ enableScreens();
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-
-  const [usuarioAutenticado, setUsuarioAutenticado] = useState(false);
-
-  useEffect(async () => {
-    setUsuarioAutenticado(false);
-    if (await getData('auth')) {
-      console.log('auth')
-      if (CheckSession()) {
-        console.log('session')
-        setUsuarioAutenticado(true);
-        navigation.navigate('Inicio');
-      }
-    }
-  }, []);
-
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        {usuarioAutenticado ? (
-          <Stack.Screen name="Home"
-            component={HomeScreen}
-            options={{ headerShown: false }} />
-        ) : (
-          <Stack.Screen name="Login"
-            component={LoginScreen}
-            options={{ headerShown: false }} />
-        )}
-
-        <Stack.Screen name="Inicio"
-          component={HomeScreen}
-          options={{ headerShown: false }} />
-
-        <Stack.Screen name="Config"
-          component={ConfigScreen}
-          options={{ headerShown: false }} />
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Inicio" component={HomeScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Config" component={ConfigScreen} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

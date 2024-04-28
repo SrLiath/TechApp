@@ -1,6 +1,6 @@
 // it's me
 import { getData, saveData } from './Krypto';
-const CheckSession = async () => {
+export const CheckSession = async () => {
     try {
         const token = await getData('session_token');
         if (token != null) {
@@ -30,7 +30,7 @@ const CheckSession = async () => {
                 console.error('Erro durante a autenticação:', error.message);
             }
         }
-        const url = 'https://suporte.techsize.com.br/apirest.php/getMyProfiles/';
+        const url = 'https://suporte.techsize.com.br/apirest.php/initSession/';
         const response = await fetch(url, {
             method: 'POST',
             headers: {
@@ -59,5 +59,3 @@ const CheckSession = async () => {
         return false
     }
 };
-
-export { CheckSession };

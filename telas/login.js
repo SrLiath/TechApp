@@ -4,6 +4,7 @@ import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image } from 'reac
 import { useNavigation } from '@react-navigation/native';
 import { getData, saveData } from '../controllers/Krypto';
 import { CheckSession } from '../controllers/Return';
+import Toast from 'react-native-simple-toast';
 export default function LoginScreen() {
     const navigation = useNavigation();
     const [username, setUsername] = useState('');
@@ -16,14 +17,30 @@ export default function LoginScreen() {
         global.atob = require('base-64').decode;
     }
     useEffect(() => {
-        if (getData('auth')) {
-            console.log('auth')
-            if (CheckSession()) {
-                console.log('session')
-                navigation.navigate('Inicio');
+        const fetchData = async () => {
+            try {
+                if (await getData('app_token')) {
+                    Toast.showWithGravity('App token:   ' + await getData('app_token'), Toast.LONG, Toast.CENTER);
+                } else {
+                    Toast.showWithGravity('Cadastre um app token', Toast.LONG, Toast.CENTER);
+                }
+                if (await getData('auth')) {
+                    console.log('auth');
+                    if (await CheckSession()) {
+                        console.log('session');
+                        navigation.reset({
+                            index: 0,
+                            routes: [{ name: 'Inicio' }],
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Erro durante a execução do useEffect:', error.message);
             }
-        }
-    }, []);
+        };
+
+        fetchData();
+    }, [navigation]);
 
     const handleLogin = async () => {
         try {

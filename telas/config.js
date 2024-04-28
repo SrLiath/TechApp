@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, StyleSheet, Text, View, TextInput, TouchableOpacity } from "react-native";
 import { getData, saveData } from '../controllers/Krypto';
-import Toast from 'react-native-toast-message';
+
 
 export default function ConfigScreen({ navigation }) {
     const [appToken, setAppToken] = useState("");
